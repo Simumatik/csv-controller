@@ -1,4 +1,5 @@
 COLUMN_NAME_FOR_DATETIME = "Fecha envio"
+COLUMNS_TO_SIMUMATIK = ['SP_Aluminio', 'PV_Aluminio', 'Kilos total lingotes', 'Total escorias']
 
 import pandas as pd
 import time
@@ -27,12 +28,15 @@ def read_data(filename='data.csv', debug:bool=False):
 
 
 if __name__ == "__main__":
-    data = read_data("data.csv", debug=False)
-    
-    
+    data = read_data("data.csv", debug=True)
     
     for i in range(len(data)):
-        print(data.loc[10])
-        print(type(data.loc[10]))
+        print(f"Time : {data.loc[i][COLUMN_NAME_FOR_DATETIME]}")
+        
+        for col in COLUMNS_TO_SIMUMATIK:
+            print(f"{col} : {data.loc[i][col]}")
+        
+        print()
+        
         if i > 10:
             break
