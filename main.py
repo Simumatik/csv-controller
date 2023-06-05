@@ -11,35 +11,41 @@ config = json.load(f)
 def read_data(filename='data.csv', debug:bool=False):
     global config
 
+    # Read csv file
     start_time = time.time()
     data = pd.read_csv(filename, low_memory=False) #  index_col=0,
-
     if debug:
         print("reading %s seconds ---" % (time.time() - start_time))
 
+    # Removing columns with NaN
     start_time = time.time()
-    data.dropna(axis=1, inplace=True) # Removing columns with NaN
+    data.dropna(axis=1, inplace=True) 
     if debug:
         print("dropNA %s seconds ---" % (time.time() - start_time))
+
+    # Drop columns that is not used
+    start_time = time.time()
+    data = data.filter(config["COLUMNS_TO_SIMUMATIK"])
+    if debug:
+        print("dropColumns %s seconds ---" % (time.time() - start_time))
 
     # Convert time to datetime
     start_time = time.time()
     data[config["COLUMN_NAME_FOR_DATETIME"]] = pd.to_datetime(data[config["COLUMN_NAME_FOR_DATETIME"]], dayfirst=True)
     if debug:
         print("transform data %s seconds ---" % (time.time() - start_time))
-        print(data)
 
     # Include timedelta for all lines
     start_time = time.time()
     data['time_delta'] = data["Fecha envio"] - data["Fecha envio"].shift()
     if debug:
         print("transform data %s seconds ---" % (time.time() - start_time))
-        print(data)
 
     # Determine data types
     types = data.dtypes
+
     if debug:
-        print(types["PV_Aluminio"])
+        print(data)
         
     return data, types
 
