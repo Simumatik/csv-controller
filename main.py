@@ -23,11 +23,12 @@ def read_data(filename='data.csv', debug:bool=False):
     if debug:
         print("--- dropNA %s seconds ---" % (time.time() - start_time))
 
-    # Drop lines that ain't Maguina A
-    start_time = time.time()
-    data.drop(data.query(" `Maquina`!='A' ").index, inplace=True)
-    if debug:
-        print("--- dropNA %s seconds ---" % (time.time() - start_time))
+    # Drop Query
+    for query in config["DROP_QUERYS"]:
+        start_time = time.time()
+        data.drop(data.query(query).index, inplace=True)
+        if debug:
+            print(f"--- drop '{query}' %s seconds ---" % (time.time() - start_time))
 
     # Drop columns that is not used
     start_time = time.time()
@@ -74,7 +75,7 @@ def connect_controller(initial_values, types):
             
         _controller.addVariable(variable, data_type, 0)
     
-    for variable in config["Variables_from_simumatik"]:
+    for variable in config["VARIABLES_FROM_SIMUMATIK"]:
         _controller.addVariable(variable, "float", 0)
     
     _controller.start()
