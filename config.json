@@ -1,4 +1,5 @@
 {
+    "FILENAME" : "new.csv", 
     "COLUMN_NAME_FOR_DATETIME" : "Fecha envio",
     "COLUMNS_TO_SIMUMATIK" : ["Fecha envio", "SP_Aluminio", "PV_Aluminio", "Kilos total lingotes", "Total escorias"],
     "VARIABLES_FROM_SIMUMATIK" : ["emulation_time", "time_relation"],   

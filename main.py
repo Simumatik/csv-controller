@@ -82,7 +82,7 @@ def connect_controller(initial_values, types):
     return _controller
 
 if __name__ == "__main__":    
-    data, types = read_data("data.csv", debug=True)
+    data, types = read_data(config["FILENAME"], debug=True)
 
     _controller = connect_controller(data.loc[0], types)
     
