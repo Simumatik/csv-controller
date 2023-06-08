@@ -49,7 +49,7 @@ def read_data(filename='data.csv', debug:bool=False):
 
     # Include timedelta for all lines
     start_time = time.time()
-    data['time_delta'] = data["Fecha envio"] - data["Fecha envio"].shift()
+    data['time_delta'] = data[config["COLUMN_NAME_FOR_DATETIME"]] - data[config["COLUMN_NAME_FOR_DATETIME"]].shift()
     if debug:
         print("--- calculate time_delta %s seconds ---" % (time.time() - start_time))
 
@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     while True:
         last_pause_check = time.time()
-        for i in range(len(data)):
+        for i in range(len(data)-1):
             # Send values to Simumatik
             for col in config["COLUMNS_TO_SIMUMATIK"]:
                 _controller.setValue(col, data.loc[i][col]) 
