@@ -14,44 +14,44 @@ def read_data(filename='data.csv', debug:bool=False):
     start_time = time.time()
     data = pd.read_csv(filename, low_memory=False) #  index_col=0,
     if debug:
-        print("--- reading data %s seconds ---" % (time.time() - start_time))
+        print("--- Reading data %.2s seconds ---" % (time.time() - start_time))
 
     # Removing columns with NaN
     start_time = time.time()
     data.dropna(axis=1, inplace=True) 
     if debug:
-        print("--- dropNA %s seconds ---" % (time.time() - start_time))
+        print("--- DropNA %.2s seconds ---" % (time.time() - start_time))
 
     # Drop Query
     for query in config["DROP_QUERYS"]:
         start_time = time.time()
         data.drop(data.query(query).index, inplace=True)
         if debug:
-            print(f"--- drop '{query}' %s seconds ---" % (time.time() - start_time))
+            print(f"--- Drop '{query}' %.2s seconds ---" % (time.time() - start_time))
 
     # Drop columns that is not used
     start_time = time.time()
     data = data.filter(config["COLUMNS_TO_SIMUMATIK"])
     if debug:
-        print("--- Drop lines that ain't Maguina A %s seconds ---" % (time.time() - start_time))
+        print("--- Drop unused columns %.2s seconds ---" % (time.time() - start_time))
 
     # Convert time to datetime
     start_time = time.time()
     data[config["COLUMN_NAME_FOR_DATETIME"]] = pd.to_datetime(data[config["COLUMN_NAME_FOR_DATETIME"]], dayfirst=True)
     if debug:
-        print("--- Convert time to datetime %s seconds ---" % (time.time() - start_time))
+        print("--- Convert time to datetime %.2s seconds ---" % (time.time() - start_time))
 
     # Sort on Date time
     start_time = time.time()
     data.sort_values(by=config["COLUMN_NAME_FOR_DATETIME"], inplace=True, ignore_index=True)
     if debug:
-        print("--- sort by date  %s seconds ---" % (time.time() - start_time))
+        print("--- Sort by date  %.2s seconds ---" % (time.time() - start_time))
 
     # Include timedelta for all lines
     start_time = time.time()
     data['time_delta'] = data[config["COLUMN_NAME_FOR_DATETIME"]] - data[config["COLUMN_NAME_FOR_DATETIME"]].shift()
     if debug:
-        print("--- calculate time_delta %s seconds ---" % (time.time() - start_time))
+        print("--- Calculate time_delta %.2s seconds ---" % (time.time() - start_time))
 
     # Determine data types
     types = data.dtypes
