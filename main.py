@@ -12,7 +12,7 @@ def read_data(filename='data.csv', debug:bool=False):
 
     # Read csv file
     start_time = time.time()
-    data = pd.read_csv(filename, low_memory=False) #  index_col=0,
+    data = pd.read_csv(filename, low_memory=False)
     if debug:
         print("--- Reading data %.2s seconds ---" % (time.time() - start_time))
 
@@ -61,7 +61,7 @@ def read_data(filename='data.csv', debug:bool=False):
         
     return data, types
 
-def connect_controller(initial_values, types):
+def connect_controller(types):
     _controller = UDP_Controller()
     
     for variable in config["COLUMNS_TO_SIMUMATIK"]:
@@ -83,7 +83,7 @@ def connect_controller(initial_values, types):
 if __name__ == "__main__":    
     data, types = read_data(config["FILENAME"], debug=True)
 
-    _controller = connect_controller(data.loc[0], types)
+    _controller = connect_controller(types)
     
     while _controller.getValue('emulation_time') == 0.0:
         print("Waiting for simulation model to connect...", end="\r")
