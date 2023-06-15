@@ -2,6 +2,6 @@
     "FILENAME" : "example_data.csv", 
     "COLUMN_NAME_FOR_DATETIME" : "Timestamp",
     "COLUMNS_TO_SIMUMATIK" : ["Timestamp", "Set Point A", "Process Value A"],
-    "VARIABLES_FROM_SIMUMATIK" : ["emulation_time", "time_relation", "starting_line"],   
+    "VARIABLES_FROM_SIMUMATIK" : ["emulation_time", "time_relation", "starting_time"],   
     "DROP_QUERYS" : [" `Machine`!='A' "]
 }

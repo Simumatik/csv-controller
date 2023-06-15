@@ -95,9 +95,19 @@ if __name__ == "__main__":
         last_pause_check = time.time()
 
         try:
-            starting_line = int(_controller.getValue('starting_line'))
-        except:
+            # Finding first line in data that matches selected start time
+            start_time = _controller.getValue('starting_time')
+            start_time = pd.to_datetime(start_time, dayfirst=True)
+            starting_line = data[data[config["COLUMN_NAME_FOR_DATETIME"]] >= start_time].index[0]
+        except Exception as e:
             starting_line = 0
+
+        if starting_line >= len(data):
+            print("Error in starting time, no rows to show! Exiting...")
+            time.sleep(5)
+            break
+        else:
+            print(f"Simulation starts at line number {starting_line}")
 
         for i in range(starting_line, len(data)-1):
             # Send values to Simumatik
