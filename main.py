@@ -95,11 +95,11 @@ if __name__ == "__main__":
         last_pause_check = time.time()
 
         try:
-            starting_line = _controller.getValue('starting_line')
+            starting_line = int(_controller.getValue('starting_line'))
         except:
             starting_line = 0
 
-        for i in range(len(data)-1):
+        for i in range(starting_line, len(data)-1):
             # Send values to Simumatik
             for col in config["COLUMNS_TO_SIMUMATIK"]:
                 _controller.setValue(col, data.loc[i][col]) 
