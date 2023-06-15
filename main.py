@@ -61,6 +61,7 @@ def read_data(filename='data.csv', debug:bool=False):
         
     return data, types
 
+
 def connect_controller(types):
     _controller = UDP_Controller()
     
@@ -74,8 +75,9 @@ def connect_controller(types):
             
         _controller.addVariable(variable, data_type, 0)
     
-    for variable in config["VARIABLES_FROM_SIMUMATIK"]:
-        _controller.addVariable(variable, "float", 0)
+    _controller.addVariable("emulation_time", "float", 0)
+    _controller.addVariable("time_relation", "float", 0)
+    _controller.addVariable("starting_time", "str", None)
     
     _controller.start()
     return _controller
@@ -97,7 +99,7 @@ if __name__ == "__main__":
         try:
             # Finding first line in data that matches selected start time
             start_time = _controller.getValue('starting_time')
-            start_time = pd.to_datetime(start_time, dayfirst=True)
+            start_time = pd.to_datetime(start_time)
             starting_line = data[data[config["COLUMN_NAME_FOR_DATETIME"]] >= start_time].index[0]
         except Exception as e:
             starting_line = 0
