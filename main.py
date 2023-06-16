@@ -109,7 +109,7 @@ if __name__ == "__main__":
             time.sleep(5)
             break
         else:
-            print(f"Simulation starts at line number {starting_line}")
+            print(f"Simulation starts at line number {starting_line}, representing start time {start_time}.")
 
         for i in range(starting_line, len(data)-1):
             # Send values to Simumatik
