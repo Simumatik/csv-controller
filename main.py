@@ -22,6 +22,15 @@ def read_data(filename='data.csv', debug:bool=False):
     if debug:
         print("--- DropNA %.2s seconds ---" % (time.time() - start_time))
 
+    # Drop whitespace characters in column name
+    start_time = time.time()
+    new_column_names = []
+    for col in data.columns:
+        new_column_names.append(col.strip())
+    data.columns = new_column_names
+    if debug:
+        print("--- Drop whitespace charcter in column headers %.2s seconds ---" % (time.time() - start_time))
+
     # Drop Query
     for query in config["DROP_QUERYS"]:
         start_time = time.time()
